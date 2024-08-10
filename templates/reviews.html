@@ -1,0 +1,23 @@
+<!--review.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Review History</h1>
+    
+    <section class="review-list">
+        {% for review in reviews %}
+        <div class="review-item">
+            <h2>{{ review.place }}</h2>
+            <p>{{ review.review }}</p>
+            <p>Rating: {{ review.rating }}</p>
+        </div>
+        {% endfor %}
+    </section>
+</body>
+</html>

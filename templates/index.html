@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Home Screen and Trip Planner</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <style>
+       
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+                Travel App
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/recommendations">Recommendations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/help">Help Center</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/destinations">Destinations</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/iconic-highlights.html">Iconic Highlights</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Screen -->
+    <section class="welcome-banner parallax-window" data-parallax="scroll" data-image-src="{{ url_for('static', filename='images/banner-image.jpg') }}">
+        <div class="banner-content">
+            <h1 class="animate__animated animate__fadeInDown">Discover Your Next Adventure</h1>
+            <p class="animate__animated animate__fadeInUp">Check out our popular destinations and current travel deals.</p>
+            <div class="animate__animated animate__fadeInUp">
+                <button class="btn btn-primary btn-lg" onclick="window.location.href='/recommendations'">Explore Recommendations</button>
+                <button class="btn btn-success btn-lg">Book Now</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="search-bar bg-light py-4 sticky-top">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Destination" id="destination">
+                        <input type="date" class="form-control" id="date">
+                        <select class="form-control" id="activity">
+                            <option value="">Select Activity</option>
+                            <option value="hiking">Hiking</option>
+                            <option value="beach">Beach</option>
+                            <option value="city">City Tour</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" onclick="handleSearch()">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="recommendations py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Personalized Recommendations</h2>
+            <div class="row" id="recommendations-container">
+                <!-- Recommendations will be dynamically added here -->
+            </div>
+        </div>
+    </section>
+
+    <section class="quick-access py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <button class="btn btn-primary btn-block btn-lg" onclick="showTripPlanner()">Plan a Trip</button>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <button class="btn btn-success btn-block btn-lg" onclick="exploreDestinations()">Explore Destinations</button>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <button class="btn btn-info btn-block btn-lg" onclick="showMyTrips()">My Trips</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trip Planning Interface -->
+    <section class="trip-planner py-5" id="trip-planner" style="display: none;">
+        <div class="container">
+            <h2 class="text-center mb-4">Trip Planner Wizard</h2>
+            <div class="wizard">
+                <!-- Step 1: Destination Selection -->
+                <div class="step" id="step1">
+                    <h3>Step 1: Select Destination</h3>
+                    <select class="form-control" id="destination-select">
+                        <option value="">Choose Destination</option>
+                        <option value="paris">Paris</option>
+                        <option value="new-york">New York</option>
+                        <option value="tokyo">Tokyo</option>
+                    </select>
+                    <button class="btn btn-primary mt-3" onclick="nextStep(2)">Next</button>
+                </div>
+                <!-- Step 2: Dates and Duration -->
+                <div class="step" id="step2" style="display:none;">
+                    <h3>Step 2: Select Dates and Duration</h3>
+                    <input type="date" class="form-control mb-2" id="start-date">
+                    <input type="date" class="form-control mb-2" id="end-date">
+                    <div class="mt-3">
+                        <button class="btn btn-secondary" onclick="nextStep(1)">Back</button>
+                        <button class="btn btn-primary" onclick="nextStep(3)">Next</button>
+                    </div>
+                </div>
+                <!-- Step 3: Preferences -->
+                <div class="step" id="step3" style="display:none;">
+                    <h3>Step 3: Select Preferences</h3>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="adventure">
+                        <label class="form-check-label" for="adventure">Adventure</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="relaxation">
+                        <label class="form-check-label" for="relaxation">Relaxation</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="cultural">
+                        <label class="form-check-label" for="cultural">Cultural</label>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-secondary" onclick="nextStep(2)">Back</button>
+                        <button class="btn btn-success" onclick="showRoute()">Finish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Optimized Route Display -->
+    <section class="route-display py-5" id="route-display" style="display: none;">
+        <div class="container">
+            <h2 class="text-center mb-4">Optimized Route Display</h2>
+            <div id="map"></div>
+        </div>
+    </section>
+
+    <!-- Chatbot widget -->
+    <df-messenger
+        intent="WELCOME"
+        chat-title="travel_agent"
+        agent-id="d26ef714-54ab-4eaf-a7e5-c220d8acf25d"
+        language-code="en"
+    ></df-messenger>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax.js/1.5.0/parallax.min.js"></script>
+    <script>
+        // Initialize parallax effect
+        $('.parallax-window').parallax({imageSrc: '/static/images/banner-image.jpg'});
+
+        // Populate recommendations
+        const recommendations = [
+            {title: "Paris Getaway", image: "paris.jpg", description: "Experience the city of love"},
+            {title: "New York Adventure", image: "newyork.jpg", description: "Explore the Big Apple"},
+            {title: "Tokyo Discovery", image: "tokyo.jpg", description: "Immerse in Japanese culture"}
+        ];
+
+        const recommendationsContainer = document.getElementById('recommendations-container');
+        recommendations.forEach(rec => {
+            const card = document.createElement('div');
+            card.className = 'col-md-4 mb-4';
+            card.innerHTML = `
+                <div class="card">
+                    <img src="/static/images/${rec.image}" class="card-img-top" alt="${rec.title}">
+                    <div class="card-body">
+                        <h5 class="card-title">${rec.title}</h5>
+                        <p class="card-text">${rec.description}</p>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            `;
+            recommendationsContainer.appendChild(card);
+        });
+
+        function handleSearch() {
+            const destination = document.getElementById('destination').value;
+            const date = document.getElementById('date').value;
+            const activity = document.getElementById('activity').value;
+            console.log(`Searching for ${activity} in ${destination} on ${date}`);
+            // Add code to process the search query
+        }
+
+        function nextStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.style.display = 'none');
+            document.getElementById(`step${step}`).style.display = 'block';
+        }
+
+        function showRoute() {
+            document.getElementById('trip-planner').style.display = 'none';
+            document.getElementById('route-display').style.display = 'block';
+            // Code to display the optimized route
+            console.log("Displaying optimized route");
+        }
+
+        function showTripPlanner() {
+            document.getElementById('trip-planner').style.display = 'block';
+            document.getElementById('route-display').style.display = 'none';
+        }
+
+        function exploreDestinations() {
+            console.log("Exploring destinations");
+            // Add code to show destinations
+        }
+
+        function showMyTrips() {
+            console.log("Showing my trips");
+            // Add code to show user's trips
+        }
+    </script>
+</body>
+</html>

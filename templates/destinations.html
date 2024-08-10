@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destination Catalog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <h1>Destination Catalog</h1>
+    
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Search destinations...">
+        <button onclick="searchDestinations()">Search</button>
+    </div>
+
+    <div class="search-bar">
+        <select id="continent-select" onchange="updateCountries()">
+            <option value="">Select Continent</option>
+            <option value="africa">Africa</option>
+            <option value="asia">Asia</option>
+            <option value="europe">Europe</option>
+            <option value="north-america">North America</option>
+            <option value="south-america">South America</option>
+            <option value="australia">Australia</option>
+            <option value="antarctica">Antarctica</option>
+        </select>
+
+        <select id="country-select" onchange="updatePlaces()">
+            <option value="">Select Country</option>
+        </select>
+    </div>
+
+    <div id="places-container"></div>
+
+    <div class="destination-grid">
+        {% for destination in destinations %}
+        <div class="destination-item">
+            <img src="{{ url_for('static', filename='images/' + destination.image) }}" alt="{{ destination.name }}">
+            <h2>{{ destination.name }}</h2>
+            <p>{{ destination.description }}</p>
+            <p>Best Time to Visit: {{ destination.best_time_to_visit }}</p>
+            <p>Average Cost: ${{ destination.average_cost }}</p>
+            <p>Rating: {{ destination.rating }}</p>
+            <a href="/destinations/{{ destination.id }}">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/destinations.js') }}"></script>
+    <script>
+        function searchDestinations() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const destinationItems = document.querySelectorAll('.destination-item');
+            let found = false;
+
+            destinationItems.forEach(item => {
+                const destinationName = item.querySelector('h2').textContent.toLowerCase();
+                if (destinationName.includes(query)) {
+                    item.style.display = 'block'; // Show matching item
+                    found = true;
+                } else {
+                    item.style.display = 'none'; // Hide non-matching item
+                }
+            });
+
+            if (!found) {
+                alert('No destinations found matching your search.');
+            }
+        }
+        
+        const countriesByContinent = {
+            africa: ["Egypt", "South Africa", "Morocco"],
+            asia: ["Japan", "China", "Thailand"],
+            europe: ["France", "Germany", "Italy"],
+            "north-america": ["United States", "Canada", "Mexico"],
+            "south-america": ["Brazil", "Argentina", "Chile"],
+            australia: ["Australia"],
+            antarctica: ["No countries"]
+        };
+
+        function updateCountries() {
+            const continentSelect = document.getElementById('continent-select');
+            const countrySelect = document.getElementById('country-select');
+            const selectedContinent = continentSelect.value;
+            const countries = countriesByContinent[selectedContinent] || [];
+
+            countrySelect.innerHTML = '<option value="">Select Country</option>';
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.toLowerCase().replace(/ /g, '-');
+                option.textContent = country;
+                countrySelect.appendChild(option);
+            });
+        }
+
+        const placesByCountry = {
+            "egypt": ["Pyramids of Giza", "Luxor Temple"],
+            "south-africa": ["Table Mountain", "Kruger National Park"],
+            "morocco": ["Marrakech Medina", "Chefchaouen"],
+            // Add more countries and their places here
+        };
+
+        function updatePlaces() {
+            const countrySelect = document.getElementById('country-select');
+            const placesContainer = document.getElementById('places-container');
+            const selectedCountry = countrySelect.value;
+            const places = placesByCountry[selectedCountry] || [];
+
+            placesContainer.innerHTML = '';
+            places.forEach(place => {
+                const div = document.createElement('div');
+                div.textContent = place;
+                placesContainer.appendChild(div);
+            });
+        }
+
+        function searchDestinations() {
+            const query = document.getElementById('search').value;
+            // Implement search functionality here
+        }
+    </script>
+
+    <style>
+        .search-bar {
+            margin: 20px 0;
+        }
+
+        #places-container div {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</body>
+</html>

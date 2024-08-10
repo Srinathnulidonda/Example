@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ destination.name }} - Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>{{ destination.name }}</h1>
+    <img src="{{ url_for('static', filename='images/' + destination.image) }}" alt="{{ destination.name }}">
+    <p><strong>Description:</strong> {{ destination.description }}</p>
+    <p><strong>Country:</strong> {{ destination.country }}</p>
+    <p><strong>Continent:</strong> {{ destination.continent }}</p>
+    <p><strong>Best Time to Visit:</strong> {{ destination.best_time_to_visit }}</p>
+    <p><strong>Average Cost:</strong> ${{ destination.average_cost }}</p>
+    <p><strong>Rating:</strong> {{ destination.rating }}</p>
+
+    <h2>Attractions</h2>
+    <ul>
+        {% for attraction in destination.attractions %}
+        <li>{{ attraction.name }} - {{ attraction.description }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Accommodation Options</h2>
+    <ul>
+        {% for accommodation in destination.accommodations %}
+        <li>{{ accommodation.name }} - {{ accommodation.type }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Travel Tips</h2>
+    <p>Local etiquette, safety tips, and packing suggestions.</p>
+
+    <a href="/destinations">Back to Catalog</a>
+</body>
+</html>

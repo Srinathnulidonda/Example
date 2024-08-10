@@ -1,0 +1,28 @@
+<!-- detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Detail View</title>
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+ <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+</head>
+<body>
+ <h1>{{ detail.name }}</h1>
+ <p>{{ detail.description }}</p>
+ <section class="images">
+ <!-- Add high-quality images here -->
+ </section>
+ <section class="reviews">
+ <h2>User Reviews</h2>
+ {% for sentiment in sentiments %}
+ <div class="review">
+ <p>{{ sentiment.review }}</p>
+ <p>Sentiment Score: {{ sentiment.sentiment }}</p>
+ </div>
+ {% endfor %}
+ </section>
+ <button>Save to My Trip</button>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!-- help.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Help Center</h1>
+    </header>
+
+    <section class="faq">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <h3>How do I book a trip?</h3>
+            <p>To book a trip, go to the trip planner section, select your destination, dates, and preferences, and follow the instructions.</p>
+        </div>
+        <div class="faq-item">
+            <h3>What is the cancellation policy?</h3>
+            <p>You can cancel your trip up to 24 hours before the scheduled departure. Please visit the cancellation policy page for more details.</p>
+        </div>
+        <!-- Add more FAQ items as needed -->
+    </section>
+
+    <section class="travel-tips">
+        <h2>Travel Tips</h2>
+        <p>Check out our travel tips to make the most of your journey.</p>
+        <ul>
+            <li>Tip 1: Always carry a copy of your travel documents.</li>
+            <li>Tip 2: Pack light to make your travel more comfortable.</li>
+            <li>Tip 3: Learn a few phrases of the local language.</li>
+            <!-- Add more tips as needed -->
+        </ul>
+    </section>
+
+    <section class="contact">
+        <h2>Contact Us</h2>
+        <p>If you have further questions, feel free to reach out to our support team.</p>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message"></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </section>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!-- preferences.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferences Setup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Preferences Setup</h1>
+    <form action="/preferences" method="POST">
+        <label for="budget">Budget:</label>
+        <select id="budget" name="budget">
+            <option value="low" {% if preferences.budget == 'low' %}selected{% endif %}>Low</option>
+            <option value="medium" {% if preferences.budget == 'medium' %}selected{% endif %}>Medium</option>
+            <option value="high" {% if preferences.budget == 'high' %}selected{% endif %}>High</option>
+        </select>
+
+        <label for="travel_companions">Travel Companions:</label>
+        <select id="travel_companions" name="travel_companions">
+            <option value="solo" {% if preferences.travel_companions == 'solo' %}selected{% endif %}>Solo</option>
+            <option value="family" {% if preferences.travel_companions == 'family' %}selected{% endif %}>Family</option>
+            <option value="friends" {% if preferences.travel_companions == 'friends' %}selected{% endif %}>Friends</option>
+        </select>
+
+        <label>Cuisine Preferences:</label><br>
+        <input type="checkbox" name="cuisine" value="Italian" {% if 'Italian' in preferences.cuisine %}checked{% endif %}> Italian<br>
+        <input type="checkbox" name="cuisine" value="Chinese" {% if 'Chinese' in preferences.cuisine %}checked{% endif %}> Chinese<br>
+        <input type="checkbox" name="cuisine" value="Indian" {% if 'Indian' in preferences.cuisine %}checked{% endif %}> Indian<br>
+        <input type="checkbox" name="cuisine" value="Mexican" {% if 'Mexican' in preferences.cuisine %}checked{% endif %}> Mexican<br>
+        
+        <button type="submit">Save Preferences</button>
+    </form>
+</body>
+</html>

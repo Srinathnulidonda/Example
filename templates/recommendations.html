@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Travel Planner</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPnLXTOd76DE4Ks3uHbj8AOEvRh30dzlo&libraries=places" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/openweathermap-js-api@1.0.1/weather.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/rec.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-globe-americas"></i> Advanced Travel Planner</h1>
+        </header>
+
+        <aside class="sidebar">
+            <div class="search-bar">
+                <input id="search-input" type="text" placeholder="Search places...">
+                <button onclick="searchPlaces()"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="filter-options">
+                <select id="type-select">
+                    <option value="">All Types</option>
+                    <option value="tourist_attraction">Tourist Attractions</option>
+                    <option value="restaurant">Restaurants</option>
+                    <option value="lodging">Hotels</option>
+                </select>
+            </div>
+
+            <div class="filter-options">
+                <select id="rating-select">
+                    <option value="">Any Rating</option>
+                    <option value="4">4+ Stars</option>
+                    <option value="3">3+ Stars</option>
+                    <option value="2">2+ Stars</option>
+                </select>
+            </div>
+
+            <div class="travel-mode">
+                <select id="travel-mode-select" onchange="calculateShortestPath()">
+                    <option value="DRIVING">Driving</option>
+                    <option value="WALKING">Walking</option>
+                    <option value="BICYCLING">Bicycling</option>
+                    <option value="TRANSIT">Transit</option>
+                </select>
+            </div>
+            <button onclick="calculateDistances()">Shortest path</button>
+
+            
+
+            <div id="weather-info"></div>
+            
+            <div id="search-results"></div>
+
+            <div id="result" class="result"></div>
+          
+
+            <div class="route-actions">
+                <button onclick="saveRoute()"><i class="fas fa-save"></i> Save Route</button>
+                <!--<button onclick="loadRoute()"><i class="fas fa-folder-open"></i> Load Route</button>-->
+            </div>
+            
+        </aside>
+
+        <section id="map"></section>
+
+        <footer>
+            <p>Contact Us: <a href="srianthnani09@gmail.com"></a>srianthnani09@gmail.com</p>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='js/rec.js') }}"></script>
+</body>
+</html>
